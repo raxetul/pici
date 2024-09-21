@@ -37,5 +37,10 @@ module.exports = {
     "import/resolver": {
       "typescript": {}
     }
-  }
+  },
+  ignores: [
+    "build/**/*",
+    "node_modules/**/*",
+    "dist/**/*",
+  ],
 };

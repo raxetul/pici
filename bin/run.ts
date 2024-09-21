@@ -1,15 +1,15 @@
 import yargs, { CommandModule } from 'yargs'
 import { config } from 'dotenv'
 import { commands } from '../src'
-import { bgBlue, bold, red } from 'picocolors'
+import { bgBlue } from 'picocolors'
 
 config()
 
 const run = yargs(process.argv.slice(2))
 run.usage(
   bgBlue(
-    `Welcome to the CLI application powered by ${bold(red('cli-typescript-starter'))}!
-    See more on https://github.com/kucherenko/cli-typescript-starter`,
+    `Welcome to Pici!
+    See more on https://github.com/raxetul/pici`,
   ),
 )
 for (const command of commands) {

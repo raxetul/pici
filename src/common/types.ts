@@ -1,3 +1,5 @@
-interface DBNameArgv {
-  dbName: string;
+export interface DBArgv {
+  file?: string;
+  source?: string;
+  target?: string;
 }

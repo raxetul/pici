@@ -1,34 +1,37 @@
 import { ArgumentsCamelCase, Argv } from 'yargs';
 import { logger } from '../logger';
 import {  red, yellow } from 'picocolors';
-import { getDumpCommand, getToQueryCommand, infoErrorCallback } from '@/common/utils';
+import { getToQueryCommand } from '@/common/utils';
 import { createDbQuery } from '@/common/queries';
-const { execSync } = require('child_process');
+import { execSync } from 'child_process';
+import { DBArgv } from '@/common/types';
 
 
 export const command = 'create';
 export const describe = 'Creates a DB in the server';
 export const aliases = ['cd'];
 
-export function builder(yargs: Argv<DBNameArgv>): Argv {
+export function builder(yargs: Argv<DBArgv>): Argv {
   return yargs
-    .option('to', {
+    .option('target', {
       type: 'string',
-      description: 'Name of the database to count its tables from TO VARIABLES'
+      description: 'Name of the database to create in TARGET'
     })
     ;
 }
 
-export async function handler(argv: ArgumentsCamelCase<DBNameArgv>) {
+export async function handler(argv: ArgumentsCamelCase<DBArgv>) {
+
   try {
-    const dbName = argv.to.toString();
-    logger.log(yellow(`Creating TO DB ${dbName}`));  
+    const dbName = argv.target?.toString();
+    logger.log(yellow(`Creating Target DB ${dbName}`));  
 
     if (dbName) {
       const createCommand = getToQueryCommand('', createDbQuery(dbName));
-      await execSync(createCommand, infoErrorCallback);
+      const output = execSync(createCommand);
+      logger.info(output);
     } else {
-      logger.error(`No --to flag is given, can not create`);
+      logger.error(`No --target flag is given, can not create`);
     }
   } catch (e) {
     logger.error(red((e as Error).message));
