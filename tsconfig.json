@@ -17,12 +17,10 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
-      "@/*": ["src/*"] 
-    },
+      "@/*": ["src/*"]
+    }
   },
-  "include": [
-    "src/**/*.ts",
-  ],
+  "include": ["src/**/*.ts"],
   "exclude": ["dist", "bundle", "node_modules"],
   "ts-node": {
     // these options are overrides used only by ts-node
