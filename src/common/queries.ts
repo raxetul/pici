@@ -1,6 +1,5 @@
-
 export function getRenameDBQuery(oldDbName: string, newDbName: string) {
-    return `
+  return `
         DO LANGUAGE plpgsql
         '
         DECLARE

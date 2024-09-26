@@ -1,5 +1,5 @@
 export function getTimestampFileName(dbName: string): string {
-  const date = new Date().toISOString().replace('T','---').replaceAll(':','-');
+  const date = new Date().toISOString().replace('T', '---').replaceAll(':', '-');
   const fileName = `${dbName}-${date}.dump`;
   return fileName;
 }

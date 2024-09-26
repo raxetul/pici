@@ -1,4 +1,4 @@
-import { createConsola} from 'consola'
+import { createConsola } from 'consola';
 
 export const logger = createConsola({
   level: 4,
@@ -6,10 +6,10 @@ export const logger = createConsola({
   reporters: [
     {
       log(logObj) {
-        const timestamp = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
-        const message = logObj.args.join(' ')
-        console.log(`[${timestamp}] ${logObj.type}: ${message}`)
-      }
-    }
-  ]
+        const timestamp = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+        const message = logObj.args.join(' ');
+        console.log(`[${timestamp}] ${logObj.type}: ${message}`);
+      },
+    },
+  ],
 });

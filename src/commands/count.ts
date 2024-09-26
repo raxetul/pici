@@ -1,10 +1,10 @@
-import { ArgumentsCamelCase, Argv } from 'yargs';
-import { logger } from '../logger';
-import { red } from 'picocolors';
+import { DBArgv } from '@/common/types';
 import { getFromQueryCommand, getToQueryCommand } from '@/common/utils';
 import { execSync } from 'child_process';
-import { DBArgv } from '@/common/types';
+import { red } from 'picocolors';
+import { ArgumentsCamelCase, Argv } from 'yargs';
 
+import { logger } from '../logger';
 
 export const command = 'count';
 export const describe = 'Return row counts of all tables in the given DB';
@@ -14,20 +14,18 @@ export function builder(yargs: Argv<DBArgv>): Argv {
   return yargs
     .option('target', {
       type: 'string',
-      description: 'Name of the database in TARGET to count table rows'
+      description: 'Name of the database in TARGET to count table rows',
     })
     .option('source', {
       type: 'string',
-      description: 'Name of the database in SOURCE to count table rows'
-    })
-    ;
+      description: 'Name of the database in SOURCE to count table rows',
+    });
 }
 
 export async function handler(argv: ArgumentsCamelCase<DBArgv>): Promise<void> {
   try {
     logger.log(`Table counts in DB ${argv.target || argv.source}`);
-    const countQuery = 
-      `SELECT 
+    const countQuery = `SELECT 
         table_name,
         (SELECT 
           n_live_tup
@@ -38,13 +36,13 @@ export async function handler(argv: ArgumentsCamelCase<DBArgv>): Promise<void> {
         information_schema.tables 
       WHERE 
         table_schema = 'public' ORDER BY table_name;`;
-  
-    const countCommand = argv.target ?
-      getToQueryCommand(argv.target.toString(), countQuery) :
-      argv.source ?
-        getFromQueryCommand(argv.source.toString(), countQuery) :
-      null;
-  
+
+    const countCommand = argv.target
+      ? getToQueryCommand(argv.target.toString(), countQuery)
+      : argv.source
+        ? getFromQueryCommand(argv.source.toString(), countQuery)
+        : null;
+
     if (countCommand) {
       logger.log(countCommand);
       const output = execSync(countCommand);
