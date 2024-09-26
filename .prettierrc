@@ -2,19 +2,30 @@
   "arrowParens": "always",
   "bracketSpacing": true,
   "endOfLine": "lf",
-  "importOrder": ["^[./]"],
-  "importOrderParserPlugins": ["typescript", "decorators-legacy"],
+  "importOrder": [
+    "^[./]"
+  ],
+  "importOrderParserPlugins": [
+    "typescript",
+    "decorators-legacy"
+  ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
-  "newline": "lf",
   "semi": true,
   "singleQuote": true,
   "trailingComma": "all",
   "printWidth": 120,
-  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports"
+  ],
   "overrides": [
     {
-      "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
+      "files": [
+        "*.js",
+        "*.jsx",
+        "*.ts",
+        "*.tsx"
+      ],
       "options": {
         "parser": "typescript"
       }
