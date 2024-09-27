@@ -1,7 +1,7 @@
 import { DBArgv } from '@/common/types';
 import { getRestoreCommand } from '@/common/utils';
 import { execSync } from 'child_process';
-import { red, yellow } from 'picocolors';
+import { green, red, yellow } from 'picocolors';
 import { ArgumentsCamelCase, Argv } from 'yargs';
 
 import { logger } from '../logger';
@@ -26,7 +26,7 @@ export async function handler(argv: ArgumentsCamelCase<DBArgv>): Promise<void> {
   try {
     const dbName = argv.target?.toString();
     const fileName = argv.file?.toString();
-    logger.log(yellow(`Restoring DB ${dbName} from file ${fileName}`));
+    logger.info(yellow(`Restoring DB ${dbName} from file ${fileName}`));
 
     if (dbName && fileName) {
       if (
@@ -34,14 +34,14 @@ export async function handler(argv: ArgumentsCamelCase<DBArgv>): Promise<void> {
         process.env.SOURCE_PORT === process.env.TARGET_PORT &&
         fileName.split('-')[0] === dbName
       ) {
-        logger.error(`Cannot restore to the same DB, use explicitly written pg_restore command!`);
+        logger.error(red(`Cannot restore to the same DB, use explicitly written pg_restore command!`));
         return;
       }
       const restoreCommand = getRestoreCommand(dbName, fileName);
-      const output = execSync(restoreCommand);
-      logger.info(output);
+      execSync(restoreCommand);
+      logger.info(green(`Operation is completed`));
     } else {
-      logger.error(`No --to or --file flag is given, can not restore`);
+      logger.error(red(`No --to or --file flag is given, can not restore`));
     }
   } catch (e) {
     logger.error(red((e as Error).message));

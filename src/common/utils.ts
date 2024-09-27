@@ -14,9 +14,9 @@ export function getTimestampFileName(dbName: string): string {
 //     return;
 //   }
 //   if (stdout) {
-//     logger.log(white(`${stdout.message}`));
+//    logger.info(white(`${stdout.message}`));
 //   }
-//   logger.log(green(`Operation completed successfully.`));
+//  logger.info(green(`Operation completed successfully.`));
 // }
 
 export function getToQueryCommand(targetDbName: string, query: string): string {

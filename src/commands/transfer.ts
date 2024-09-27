@@ -1,7 +1,7 @@
 import { DBArgv } from '@/common/types';
 import { getDumpCommand, getRestoreCommand } from '@/common/utils';
 import { execSync } from 'child_process';
-import { red, yellow } from 'picocolors';
+import { green, red, yellow } from 'picocolors';
 import { ArgumentsCamelCase, Argv } from 'yargs';
 
 import { logger } from '../logger';
@@ -39,18 +39,17 @@ export async function handler(argv: ArgumentsCamelCase<DBArgv>) {
       // await execSync(getToQueryCommand(targetDb, createDbQuery(targetDb)));
 
       const fileName = `${sourceDb}-${date}.dump`;
-      logger.log(yellow(`Dumping DB ${sourceDb} to file ${fileName}!`));
+      logger.info(yellow(`Dumping DB ${sourceDb} to file ${fileName}!`));
 
       const dumpCommand = getDumpCommand(sourceDb, fileName);
-      const dumpOutput = execSync(dumpCommand);
-      logger.info(dumpOutput);
+      execSync(dumpCommand);
 
-      logger.log(yellow(`Restoring file ${fileName} to DB ${targetDb}!`));
+      logger.info(yellow(`Restoring file ${fileName} to DB ${targetDb}!`));
       const restoreCommand = getRestoreCommand(targetDb, fileName);
-      const restoreOutput = execSync(restoreCommand);
-      logger.info(restoreOutput);
+      execSync(restoreCommand);
+      logger.info(green(`Operation is completed`));
     } else {
-      logger.error(` No --source and --target flag is given, can not transfer`);
+      logger.error(red(` No --source and --target flag is given, can not transfer`));
     }
   } catch (e) {
     logger.error(red((e as Error).message));

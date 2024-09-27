@@ -1,7 +1,7 @@
 import { DBArgv } from '@/common/types';
 import { getFromQueryCommand, getToQueryCommand } from '@/common/utils';
 import { execSync } from 'child_process';
-import { red } from 'picocolors';
+import { green, red } from 'picocolors';
 import { ArgumentsCamelCase, Argv } from 'yargs';
 
 import { logger } from '../logger';
@@ -24,7 +24,7 @@ export function builder(yargs: Argv<DBArgv>): Argv {
 
 export async function handler(argv: ArgumentsCamelCase<DBArgv>): Promise<void> {
   try {
-    logger.log(`Table counts in DB ${argv.target || argv.source}`);
+    logger.info(`Table counts in DB ${argv.target || argv.source}`);
     const countQuery = `SELECT 
         table_name,
         (SELECT 
@@ -44,11 +44,10 @@ export async function handler(argv: ArgumentsCamelCase<DBArgv>): Promise<void> {
         : null;
 
     if (countCommand) {
-      logger.log(countCommand);
       const output = execSync(countCommand);
-      logger.info(output);
+      logger.info(green(`\n${output}`));
     } else {
-      logger.error(`No --source or --target flag is given, cannot count`);
+      logger.error(red(`No --source or --target flag is given, cannot count`));
     }
   } catch (e) {
     logger.error(red((e as Error).message));

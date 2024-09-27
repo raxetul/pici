@@ -1,7 +1,7 @@
 import { DBArgv } from '@/common/types';
 import { getDumpCommand } from '@/common/utils';
 import { execSync } from 'child_process';
-import { red, yellow } from 'picocolors';
+import { green, red, yellow } from 'picocolors';
 import { ArgumentsCamelCase, Argv } from 'yargs';
 
 import { logger } from '../logger';
@@ -20,16 +20,15 @@ export function builder(yargs: Argv<DBArgv>): Argv {
 export function handler(argv: ArgumentsCamelCase<DBArgv>): void {
   try {
     const sourceDb = argv.source?.toString();
-    logger.log(yellow(`Dumping DB ${argv.target}`));
     if (sourceDb) {
       const date = new Date().toISOString().replace('T', '---').replaceAll(':', '-');
       const fileName = `${sourceDb}-${date}.dump`;
-      logger.log(yellow(`Dumping DB ${sourceDb} to file ${fileName}!`));
+      logger.info(yellow(`Dumping DB ${sourceDb} to file ${fileName}!`));
       const dumpCommand = getDumpCommand(sourceDb, fileName);
-      const output = execSync(dumpCommand);
-      logger.info(output);
+      execSync(dumpCommand);
+      logger.info(green(`Operation is completed`));
     } else {
-      logger.error(` No --from flag is given, can not dump`);
+      logger.error(red(` No --from flag is given, can not dump`));
     }
   } catch (e) {
     logger.error(red((e as Error).message));
