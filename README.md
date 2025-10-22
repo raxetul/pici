@@ -1,3 +1,6 @@
+# pici
+Secure helper tool for PostgreSQL CLI tools
+
 # The Name?
 
 **pici** is the pronunciation of **pg** in Turkish.
