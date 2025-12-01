@@ -5,9 +5,7 @@ import fs from 'fs';
 import { green, red, yellow } from 'picocolors';
 import { ArgumentsCamelCase, Argv } from 'yargs';
 
-
 import { logger } from '../logger';
-
 
 export const command = 'transfer';
 export const describe = 'Transfers database SOURCE DB to TARGET DB, stores locally first';
@@ -28,7 +26,7 @@ export function builder(yargs: Argv<DBArgv>): Argv {
       type: 'boolean',
       description: 'Automatically remove the local dump file after transfer',
       default: false,
-    });   
+    });
 }
 
 export async function handler(argv: ArgumentsCamelCase<DBArgv>) {
